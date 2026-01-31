@@ -13,7 +13,7 @@ export function Footer() {
               <span className="font-bold">Univerzitní Přednášky</span>
             </div>
             <p className="text-sm text-gray-600">
-              Demokratizace přístupu k vysokoškolskému vzdělání v České republice.
+              
             </p>
           </div>
 
@@ -99,10 +99,10 @@ export function Footer() {
           <p className="flex items-center justify-center space-x-1">
             <span>Vytvořeno s</span>
             <Heart className="h-4 w-4 text-red-500 fill-current" />
-            <span>pro demokratizaci vzdělání v České republice</span>
+            <span>pro podporu celoživotního vzdělání v České republice</span>
           </p>
           <p className="mt-2">
-            © {new Date().getFullYear()} Univerzitní Přednášky. Free for non-commercial use.
+            © {new Date().getFullYear()} 
           </p>
         </div>
       </div>
