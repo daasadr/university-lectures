@@ -38,13 +38,6 @@ export abstract class BaseScraper {
     lectures: ParsedLecture[];
   }>;
 
-  async saveToDatabase(data: {
-    courses: ParsedCourse[];
-    lectures: ParsedLecture[];
-  }): Promise<void> {
-    console.log(`💾 Saving ${data.courses.length} courses and ${data.lectures.length} lectures to DB...`);
-  }
-
   async run(): Promise<void> {
     console.log(`🕷️  Starting scraper for ${this.config.university} ${this.config.faculty || ''}`);
     try {

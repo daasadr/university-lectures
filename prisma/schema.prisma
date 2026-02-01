@@ -10,7 +10,7 @@ datasource db {
 model University {
   id        Int       @id @default(autoincrement())
   name      String
-  shortName String
+  shortName String    @unique
   website   String?
   faculties Faculty[]
   createdAt DateTime  @default(now())
@@ -30,6 +30,7 @@ model Faculty {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
+  @@unique([universityId, shortName])
   @@map("faculties")
 }
 
@@ -124,6 +125,7 @@ model Room {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
+  @@unique([buildingId, number])
   @@map("rooms")
 }
 
