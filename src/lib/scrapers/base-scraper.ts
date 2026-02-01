@@ -1,149 +1,60 @@
-import { PrismaClient } from '@prisma/client';
-import type { RawScheduleData, ParsedSchedule } from '@/types';
+import { prisma } from '../prisma';
 
-const prisma = new PrismaClient();
+export interface ScraperConfig {
+  university: string;
+  faculty?: string;
+}
+
+export interface ParsedCourse {
+  code: string;
+  name: string;
+  credits: number;
+  semester: string;
+  level: string;
+}
+
+export interface ParsedLecture {
+  courseCode: string;
+  type: string;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+  room?: string;
+  teacher?: string;
+}
 
 export abstract class BaseScraper {
-  abstract source: string;
-  abstract baseUrl: string;
+  protected prisma = prisma; // Použij existující client!
+  protected config: ScraperConfig;
 
-  abstract fetchSchedules(): Promise<RawScheduleData[]>;
-  abstract parseSchedule(raw: RawScheduleData): Promise<ParsedSchedule>;
+  constructor(config: ScraperConfig) {
+    this.config = config;
+  }
 
-  async run() {
-    console.log(`Starting scraper: ${this.source}`);
+  abstract fetchSchedules(): Promise<void>;
+  
+  abstract parseSchedule(data: any): Promise<{
+    courses: ParsedCourse[];
+    lectures: ParsedLecture[];
+  }>;
 
-    const job = await this.createScrapingJob();
+  async saveToDatabase(data: {
+    courses: ParsedCourse[];
+    lectures: ParsedLecture[];
+  }): Promise<void> {
+    console.log(`💾 Saving ${data.courses.length} courses and ${data.lectures.length} lectures to DB...`);
+  }
 
+  async run(): Promise<void> {
+    console.log(`🕷️  Starting scraper for ${this.config.university} ${this.config.faculty || ''}`);
     try {
-      const rawData = await this.fetchSchedules();
-      console.log(`Fetched ${rawData.length} schedules`);
-
-      for (const raw of rawData) {
-        try {
-          const parsed = await this.parseSchedule(raw);
-          await this.saveToDatabase(parsed);
-          await this.updateJobProgress(job.id, 1);
-        } catch (error) {
-          console.error(`Error processing schedule:`, error);
-          await this.logJobError(job.id, error);
-        }
-      }
-
-      await this.completeJob(job.id);
-      console.log(`Scraping completed successfully`);
+      await this.fetchSchedules();
+      console.log('✅ Scraper finished!');
     } catch (error) {
-      console.error(`Scraping failed:`, error);
-      await this.failJob(job.id, error);
+      console.error('❌ Scraper failed:', error);
       throw error;
+    } finally {
+      await this.prisma.$disconnect();
     }
-  }
-
-  async saveToDatabase(schedule: ParsedSchedule) {
-    // Save courses
-    for (const course of schedule.courses) {
-      await prisma.course.upsert({
-        where: {
-          facultyId_code: {
-            facultyId: course.facultyId!,
-            code: course.code!,
-          },
-        },
-        update: course,
-        create: course as any,
-      });
-    }
-
-    // Save teachers
-    for (const teacher of schedule.teachers) {
-      await prisma.teacher.upsert({
-        where: {
-          // Assuming we use name as unique identifier
-          name: teacher.name!,
-        },
-        update: teacher,
-        create: teacher as any,
-      });
-    }
-
-    // Save rooms
-    for (const room of schedule.rooms) {
-      await prisma.room.upsert({
-        where: {
-          buildingId_number: {
-            buildingId: room.buildingId!,
-            number: room.number!,
-          },
-        },
-        update: room,
-        create: room as any,
-      });
-    }
-
-    // Save lectures
-    for (const lecture of schedule.lectures) {
-      await prisma.lecture.create({
-        data: lecture as any,
-      });
-    }
-  }
-
-  private async createScrapingJob() {
-    return await prisma.scrapingJob.create({
-      data: {
-        source: this.source,
-        status: 'running',
-        startedAt: new Date(),
-        recordsProcessed: 0,
-      },
-    });
-  }
-
-  private async updateJobProgress(jobId: string, increment: number) {
-    await prisma.scrapingJob.update({
-      where: { id: jobId },
-      data: {
-        recordsProcessed: {
-          increment,
-        },
-      },
-    });
-  }
-
-  private async logJobError(jobId: string, error: any) {
-    await prisma.scrapingJob.update({
-      where: { id: jobId },
-      data: {
-        errors: {
-          push: {
-            timestamp: new Date(),
-            message: error.message,
-            stack: error.stack,
-          },
-        },
-      },
-    });
-  }
-
-  private async completeJob(jobId: string) {
-    await prisma.scrapingJob.update({
-      where: { id: jobId },
-      data: {
-        status: 'completed',
-        completedAt: new Date(),
-      },
-    });
-  }
-
-  private async failJob(jobId: string, error: any) {
-    await prisma.scrapingJob.update({
-      where: { id: jobId },
-      data: {
-        status: 'failed',
-        completedAt: new Date(),
-        logs: error.message,
-      },
-    });
   }
 }
-  
