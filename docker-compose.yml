@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: university-lectures-db
+    container_name: univ-lectures-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - app-network
+      - univ-lectures-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -23,52 +23,43 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: university-lectures-app
+    container_name: univ-lectures-app
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/university_lectures?schema=public
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@univ-lectures-db:5432/university_lectures?schema=public
       NODE_ENV: production
     networks:
-      - app-network
+      - univ-lectures-network
     labels:
       - "caddy=otevreneprednasky.cz"
       - "caddy.reverse_proxy={{upstreams 3000}}"
 
-  caddy:
-    image: caddy:2-alpine
-    container_name: university-lectures-caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    networks:
-      - app-network
+  #caddy:
+    #image: caddy:2-alpine
+    #container_name: univ-lectures-caddy
+    #restart: unless-stopped
+    #ports:
+      #- "80:80"
+      #- "443:443"
+    #volumes:
+      #- ./Caddyfile:/etc/caddy/Caddyfile
+      #- caddy_data:/data
+      #- caddy_config:/config
+    #networks:
+      #- univ-lectures-network
 
 volumes:
   postgres_data:
-  caddy_data:
-  caddy_config:
+    name: univ-lectures-postgres-data
+  #caddy_data:
+    #name: univ-lectures-caddy-data
+  #caddy_config:
+    #name: univ-lectures-caddy-config
 
 networks:
-  app-network:
+  univ-lectures-network:
+    name: univ-lectures-network
     driver: bridge
-```
-
-#### **3. `Caddyfile`:**
-```
-otevreneprednasky.cz {
-    reverse_proxy app:3000
-    
-    encode gzip
-    
-    log {
-        output file /var/log/caddy/access.log
-    }
-}
