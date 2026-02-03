@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { WeekCalendar } from '@/components/schedule/WeekCalendar';
+import { WeekCalendar } from '../../components/schedule/WeekCalendar';
 import { Calendar, Download, Share2, Settings, Plus, List, Grid } from 'lucide-react';
 import Link from 'next/link';
 
