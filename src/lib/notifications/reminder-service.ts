@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+/*import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
 import { addHours, isBefore } from 'date-fns';
 
@@ -54,4 +54,4 @@ export async function sendLectureReminders() {
   }
 }
 
-// Spouštěj toto každý den pomocí cron job (Vercel Cron neboNode-cron)
+// Spouštěj toto každý den pomocí cron job (Vercel Cron neboNode-cron)/*
