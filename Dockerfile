@@ -42,6 +42,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 # DŮLEŽITÉ: Zkopíruj prisma.config.ts
 COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
 
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/lib ./lib
+
 USER nextjs
 
 EXPOSE 3000
