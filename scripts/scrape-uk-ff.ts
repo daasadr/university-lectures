@@ -1,4 +1,4 @@
-import { UKFFScraper } from '../lib/scrapers/uk-ff-scraper';
+import { UKFFScraper } from '../src/lib/scrapers/uk-ff-scraper';
 
 async function main() {
   console.log('🚀 Starting UK FF scraper...');
@@ -18,3 +18,7 @@ main()
     console.error('❌ Error:', e);
     process.exit(1);
   });
+
+
+
+
