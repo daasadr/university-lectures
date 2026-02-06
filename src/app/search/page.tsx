@@ -182,7 +182,7 @@ export default function SearchPage() {
           fill
           priority
           quality={90}
-          className="object-cover"
+          className="object-contain"
           sizes="400px"
         />
         {/* Jemný border/shadow efekt */}
