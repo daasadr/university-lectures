@@ -96,12 +96,12 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p className="flex items-center justify-center space-x-1">
+          <p className="flex flex-wrap items-center justify-center gap-1.5 whitespace-nowrap px-4">
             <span>Vytvořeno s</span>
-            <Heart className="h-4 w-4 text-red-500 fill-current" />
+            <Heart className="h-4 w-4 text-red-500 fill-current flex-shrink-0" />
             <span>pro podporu celoživotního vzdělání v České republice</span>
           </p>
-          <p className="mt-2">
+          <p className="mt-2 mb-2">
             © {new Date().getFullYear()} 
           </p>
         </div>

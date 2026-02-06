@@ -175,7 +175,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Background Image - vlevo, zmenšený s poměrem stran */}
-      <div className="absolute left-0 top-[5%] w-[450px] h-[675px] z-0 opacity-60">
+      <div className="hidden md:block absolute left-0 top-[5%] w-[450px] h-[675px] z-0 opacity-60">
         <Image
           src="/search.jpg"
           alt="Vyhledávání"
@@ -204,7 +204,7 @@ export default function SearchPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-3">
               🔍 Hledat předmět
             </label>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
                 placeholder="Např. Archeologie, Historie, Psychologie..."
@@ -216,7 +216,7 @@ export default function SearchPage() {
               <button
                 onClick={handleSearch}
                 disabled={loading}
-                className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50 shadow-lg"
+                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition-colors font-semibold disabled:opacity-50 shadow-lg"
               >
                 {loading ? '⏳' : '🔍'} Vyhledat
               </button>
@@ -498,6 +498,19 @@ export default function SearchPage() {
               </div>
             </div>
           )}
+          {/* Mobilní obrázek kluka s dalekohledem */}
+          <div className="md:hidden flex justify-center py-8">
+            <div className="relative w-[250px] h-[375px] opacity-70">
+              <Image
+                src="/search.jpg"
+                alt="Vyhledávání"
+                fill
+                quality={90}
+                className="object-contain"
+                sizes="250px"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
