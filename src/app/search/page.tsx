@@ -173,9 +173,9 @@ export default function SearchPage() {
   const hasMore = displayCount < lectures.length;
 
   return (
-    <div className="min-h-screen relative">
-      {/* Background Image - vlevo */}
-      <div className="fixed left-0 top-0 bottom-0 w-[35%] z-0">
+    <div className="min-h-screen relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Background Image - vlevo, zmenšený s poměrem stran */}
+      <div className="fixed left-8 top-1/2 -translate-y-1/2 w-[400px] h-[600px] z-0 rounded-2xl overflow-hidden shadow-2xl">
         <Image
           src="/search.jpg"
           alt="Vyhledávání"
@@ -183,15 +183,15 @@ export default function SearchPage() {
           priority
           quality={90}
           className="object-cover"
-          sizes="35vw"
+          sizes="400px"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-900/40 to-slate-900/90" />
+        {/* Jemný border/shadow efekt */}
+        <div className="absolute inset-0 ring-1 ring-black/10 rounded-2xl" />
       </div>
-
-      {/* Content - vpravo s překrytím */}
-      <div className="relative z-10 ml-[25%] min-h-screen bg-gradient-to-br from-slate-50/95 via-blue-50/95 to-indigo-50/95 backdrop-blur-sm">
-        <div className="container mx-auto px-8 py-8 max-w-6xl">
+  
+      {/* Content - vpravo s menším překrytím */}
+      <div className="relative z-10 ml-[480px] min-h-screen py-8">
+        <div className="container mx-auto px-8 max-w-5xl">
           
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
