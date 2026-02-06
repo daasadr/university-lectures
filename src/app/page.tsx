@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Search, Calendar, Bell, Users, BookOpen, Sparkles } from 'lucide-react';
+import Image from 'next/image';
+import { Search, Calendar, Bell, Users, BookOpen, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   const stats = [
@@ -42,110 +43,171 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Otevřené přednášky
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Objevte veřejně přístupné univerzitní přednášky v České republice
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+    <div className="min-h-screen relative">
+      {/* Background Image - Nejzadnější vrstva */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/ucebna.jpg"
+          alt="Univerzitní učebna"
+          fill
+          priority
+          quality={85}
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Overlay pro lepší čitelnost */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-slate-900/80 to-blue-950/85 backdrop-blur-[2px]" />
+      </div>
+
+      {/* Content - Nad pozadím */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="relative py-24 md:py-40 overflow-hidden">
+          {/* Dekorativní elementy */}
+          <div className="absolute top-20 right-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+          
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              {/* Minimalistický badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-8 text-sm text-blue-200">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                Beta verze • Nyní dostupná
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">
+                Otevřené
+                <br />
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Přednášky
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl mb-12 text-gray-300 max-w-2xl font-light leading-relaxed">
+                Objevte veřejně přístupné univerzitní přednášky napříč celou Českou republikou. 
+                Vzdělávání pro každého.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/search"
+                  className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 text-lg flex items-center justify-center gap-2 shadow-2xl shadow-blue-500/20"
+                >
+                  Začít vyhledávat
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/about"
+                  className="px-8 py-4 bg-white/5 backdrop-blur-xl text-white rounded-xl font-semibold hover:bg-white/10 transition-all duration-300 text-lg border border-white/10"
+                >
+                  Zjistit více
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats - Glassmorphism cards */}
+        <section className="py-16 relative">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {stats.map((stat, index) => (
+                <div 
+                  key={stat.label} 
+                  className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    animation: 'fadeInUp 0.6s ease-out forwards',
+                    opacity: 0
+                  }}
+                >
+                  <div className="text-5xl font-bold bg-gradient-to-br from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-gray-300 font-light">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features - Bento grid */}
+        <section className="py-24">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                Proč Otevřené Přednášky?
+              </h2>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto font-light">
+                Platforma, která zpřístupňuje vysokoškolské vzdělání každému
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {features.map((feature, index) => {
+                const Icon = feature.icon;
+                return (
+                  <div
+                    key={feature.title}
+                    className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 overflow-hidden"
+                    style={{
+                      animationDelay: `${index * 100}ms`,
+                      animation: 'fadeInUp 0.6s ease-out forwards',
+                      opacity: 0
+                    }}
+                  >
+                    {/* Hover gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500 rounded-2xl" />
+                    
+                    <div className="relative">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-purple-400 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="h-7 w-7 text-white" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+                      <p className="text-gray-300 font-light leading-relaxed">{feature.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-24">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center p-12 md:p-16 rounded-3xl bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 backdrop-blur-xl border border-white/10">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                Připraveni začít?
+              </h2>
+              <p className="text-xl mb-10 text-gray-300 font-light max-w-2xl mx-auto">
+                Zaregistrujte se zdarma a získejte přístup ke stovkám přednášek
+              </p>
               <Link
-                href="/search"
-                className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition text-lg"
+                href="/register"
+                className="inline-flex items-center gap-2 px-10 py-5 bg-white text-gray-900 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 text-lg shadow-2xl shadow-blue-500/20 group"
               >
-                Začít vyhledávat
-              </Link>
-              <Link
-                href="/about"
-                className="px-8 py-4 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-400 transition text-lg border-2 border-white/20"
-              >
-                Zjistit více
+                Vytvořit účet
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
-        </div>
+        </section>
+      </div>
 
-        {/* Decorative wave */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-              fill="white"
-            />
-          </svg>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Proč Univerzitní Přednášky?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Platforma, která zpřístupňuje vysokoškolské vzdělání každému
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <div
-                  key={feature.title}
-                  className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition"
-                >
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-blue-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Připraveni začít?
-          </h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Zaregistrujte se zdarma a získejte přístup ke stovkám přednášek
-          </p>
-          <Link
-            href="/register"
-            className="inline-block px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition text-lg"
-          >
-            Vytvořit účet
-          </Link>
-        </div>
-      </section>
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
