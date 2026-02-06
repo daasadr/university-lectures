@@ -175,7 +175,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Background Image - vlevo, zmenšený s poměrem stran */}
-      <div className="fixed left-8 top-1/2 -translate-y-1/2 w-[400px] h-[600px] z-0 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="absolute left-0 top-[5%] w-[450px] h-[675px] z-0 opacity-60">
         <Image
           src="/search.jpg"
           alt="Vyhledávání"
@@ -183,15 +183,13 @@ export default function SearchPage() {
           priority
           quality={90}
           className="object-contain"
-          sizes="400px"
+          sizes="450px"
         />
-        {/* Jemný border/shadow efekt */}
-        <div className="absolute inset-0 ring-1 ring-black/10 rounded-2xl" />
       </div>
   
       {/* Content - vpravo s menším překrytím */}
-      <div className="relative z-10 ml-[480px] min-h-screen py-8">
-        <div className="container mx-auto px-8 max-w-5xl">
+      <div className="relative z-10 ml-0 md:ml-[300px] min-h-screen py-8 md:py-4">
+        <div className="container mx-auto px-4 max-w-5xl">
           
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">

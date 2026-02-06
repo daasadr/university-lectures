@@ -108,9 +108,9 @@ export default function HomePage() {
         </section>
 
         {/* Stats - Glassmorphism cards */}
-        <section className="py-16 relative">
+        <section className="py-8 md:py-16 relative">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div 
                   key={stat.label} 
