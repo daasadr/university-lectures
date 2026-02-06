@@ -70,12 +70,12 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               {/* Minimalistický badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-8 text-sm text-blue-200">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-8 text-sm text-blue-200 animate-fade-in">
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
                 Beta verze • Nyní dostupná
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight animate-fade-in-up">
                 Otevřené
                 <br />
                 <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -83,12 +83,12 @@ export default function HomePage() {
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl mb-12 text-gray-300 max-w-2xl font-light leading-relaxed">
+              <p className="text-xl md:text-2xl mb-12 text-gray-300 max-w-2xl font-light leading-relaxed animate-fade-in-up [animation-delay:200ms]">
                 Objevte veřejně přístupné univerzitní přednášky napříč celou Českou republikou. 
                 Vzdělávání pro každého.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up [animation-delay:400ms]">
                 <Link
                   href="/search"
                   className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 text-lg flex items-center justify-center gap-2 shadow-2xl shadow-blue-500/20"
@@ -114,12 +114,8 @@ export default function HomePage() {
               {stats.map((stat, index) => (
                 <div 
                   key={stat.label} 
-                  className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-300"
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                    animation: 'fadeInUp 0.6s ease-out forwards',
-                    opacity: 0
-                  }}
+                  className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-300 animate-fade-in-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="text-5xl font-bold bg-gradient-to-br from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
                     {stat.value}
@@ -134,7 +130,7 @@ export default function HomePage() {
         {/* Features - Bento grid */}
         <section className="py-24">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
                 Proč Otevřené Přednášky?
               </h2>
@@ -149,12 +145,8 @@ export default function HomePage() {
                 return (
                   <div
                     key={feature.title}
-                    className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 overflow-hidden"
-                    style={{
-                      animationDelay: `${index * 100}ms`,
-                      animation: 'fadeInUp 0.6s ease-out forwards',
-                      opacity: 0
-                    }}
+                    className="group relative p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 overflow-hidden animate-fade-in-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {/* Hover gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500 rounded-2xl" />
@@ -174,7 +166,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24">
+        <section className="py-24 animate-fade-in">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center p-12 md:p-16 rounded-3xl bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 backdrop-blur-xl border border-white/10">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
@@ -194,20 +186,6 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }
