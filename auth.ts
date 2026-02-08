@@ -1,14 +1,16 @@
 import NextAuth from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./src/lib/prisma";
 import bcrypt from "bcryptjs";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+
+const config: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: {
-    signIn: '/', // Modal se otevře na homepage
+    signIn: '/',
   },
   providers: [
     CredentialsProvider({
@@ -39,10 +41,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
+        // Vrať jen povinné fieldy
         return {
           id: user.id,
-          email: user.email,
-          name: user.name,
+          email: user.email!,
+          name: user.name || null,
         };
       }
     })
@@ -61,4 +64,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     }
   }
-});
+};
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
