@@ -42,9 +42,13 @@ const config: NextAuthConfig = {
         }
 
         // Vrať jen povinné fieldy
+        if (!user?.email) {
+          return null;
+        }
+
         return {
-          id: user.id,
-          email: user.email!,
+          id: user.id.toString(),
+          email: user.email,
           name: user.name || null,
         };
       }
