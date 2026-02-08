@@ -149,22 +149,10 @@ model CourseTag {
   @@map("course_tags")
 }
 
-model User {
-  id          Int               @id @default(autoincrement())
-  email       String            @unique
-  password    String
-  name        String?
-  schedules   Schedule[]
-  preferences UserPreferences?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-
-  @@map("users")
-}
 
 model UserPreferences {
   id                 Int     @id @default(autoincrement())
-  userId             Int     @unique
+  userId             String     @unique
   user               User    @relation(fields: [userId], references: [id])
   emailNotifications Boolean @default(true)
   reminderMinutes    Int     @default(60)
@@ -174,7 +162,7 @@ model UserPreferences {
 
 model Schedule {
   id        Int       @id @default(autoincrement())
-  userId    Int
+  userId    String
   user      User      @relation(fields: [userId], references: [id])
   name      String
   isActive  Boolean   @default(true)
@@ -215,7 +203,7 @@ model User {
   sessions      Session[]
   
   // Relace k tvým modelům
-  preferences   UserPreference[]
+  preferences   UserPreferences?
   schedules     Schedule[]
 
   @@map("users")
