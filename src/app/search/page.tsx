@@ -175,15 +175,11 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Background Image - vlevo, zmenšený s poměrem stran */}
-      <div className="hidden md:block absolute left-0 top-[5%] w-[450px] h-[675px] z-0 opacity-60">
-        <Image
+      <div className="hidden md:block absolute left-0 top-[5%] w-[450px] h-[675px] z-0 opacity-100">
+        <img
           src="/search.jpg"
           alt="Vyhledávání"
-          fill
-          priority
-          quality={90}
-          className="object-contain"
-          sizes="450px"
+          className="object-contain w-full h-full"
         />
       </div>
   
@@ -500,14 +496,11 @@ export default function SearchPage() {
           )}
           {/* Mobilní obrázek kluka s dalekohledem */}
           <div className="md:hidden flex justify-center py-8">
-            <div className="relative w-[250px] h-[375px] opacity-70">
-              <Image
+            <div className="relative w-[250px] h-[375px] opacity-100">
+              <img
                 src="/search.jpg"
                 alt="Vyhledávání"
-                fill
-                quality={90}
-                className="object-contain"
-                sizes="250px"
+                className="object-contain w-full h-full"
               />
             </div>
           </div>
