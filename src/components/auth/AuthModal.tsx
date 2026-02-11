@@ -159,13 +159,18 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                 className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition"
                 placeholder="••••••••"
                 required
-                minLength={6}
+                minLength={8}
               />
             </div>
             {mode === 'register' && (
-              <p className="text-xs text-gray-500 mt-1">
-                Heslo musí mít alespoň 6 znaků
-              </p>
+              <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                <p>Heslo musí mít alespoň 8 znaků a obsahovat:</p>
+                <ul className="list-disc list-inside ml-2 space-y-0.5">
+                  <li>velké a malé písmeno</li>
+                  <li>číslici</li>
+                  <li>speciální znak</li>
+                </ul>
+              </div>
             )}
           </div>
 

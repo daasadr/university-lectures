@@ -6,7 +6,12 @@ import { z } from 'zod';
 const registerSchema = z.object({
   name: z.string().min(2, 'Jméno musí mít alespoň 2 znaky'),
   email: z.string().email('Neplatný email'),
-  password: z.string().min(6, 'Heslo musí mít alespoň 6 znaků'),
+  password: z.string()
+    .min(8, 'Heslo musí mít alespoň 8 znaků')
+    .regex(/[A-Z]/, 'Heslo musí obsahovat alespoň jedno velké písmeno')
+    .regex(/[a-z]/, 'Heslo musí obsahovat alespoň jedno malé písmeno')
+    .regex(/[0-9]/, 'Heslo musí obsahovat alespoň jednu číslici')
+    .regex(/[^A-Za-z0-9]/, 'Heslo musí obsahovat alespoň jeden speciální znak'),
 });
 
 export async function POST(request: Request) {
