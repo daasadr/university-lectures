@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:                                    
+        DATABASE_URL: ${DATABASE_URL} 
     container_name: univ-lectures-app
     restart: unless-stopped
     depends_on:
@@ -31,6 +33,14 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@univ-lectures-db:5432/university_lectures?schema=public
       NODE_ENV: production
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      AUTH_SECRET: ${NEXTAUTH_SECRET}
+      AUTH_URL: ${NEXTAUTH_URL}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    ports:
+      - "3002:3000"
     networks:
       - univ-lectures-network
     labels:

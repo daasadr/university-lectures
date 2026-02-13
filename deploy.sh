@@ -1,9 +1,6 @@
 #!/bin/bash
-
-# Exit on any error
 set -e
 
-# Project configuration
 PROJECT_DIR="/root/projects/university-lectures"
 COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
 PROJECT_NAME="university-lectures"
@@ -11,50 +8,42 @@ PROJECT_NAME="university-lectures"
 echo "🚀 Starting deployment for $PROJECT_NAME..."
 echo "📁 Project directory: $PROJECT_DIR"
 
-# Change to project directory
 cd "$PROJECT_DIR" || exit 1
 
-# Pull latest code from Git
 echo "📥 Pulling latest code from Git..."
 git pull origin main
 
-# Stop containers (only this project)
 echo "🛑 Stopping containers..."
 docker-compose -f "$COMPOSE_FILE" -p "$PROJECT_NAME" down
 
-# Build and start containers
 echo "🔨 Building and starting containers..."
 docker-compose -f "$COMPOSE_FILE" -p "$PROJECT_NAME" up -d --build
 
-# Wait for containers to be healthy
-echo "⏳ Waiting for containers to be ready..."
+echo "⏳ Waiting for database to be ready..."
 sleep 10
 
-# Run Prisma migrations
-echo "🗄️  Running database migrations..."
-docker-compose -f "$COMPOSE_FILE" -p "$PROJECT_NAME" exec -T app npx prisma migrate deploy
+echo "🗄️  Pushing database schema..."
+# Použij node_modules/prisma místo npx
+docker exec univ-lectures-app node node_modules/prisma/build/index.js db push --accept-data-loss
 
-# Health check
+echo "🔄 Restarting app container..."
+docker restart univ-lectures-app
+
+echo "⏳ Waiting for app to start..."
+sleep 5
+
 echo "🏥 Running health check..."
-if curl -f http://localhost:80 > /dev/null 2>&1; then
+if curl -f http://localhost:3002 > /dev/null 2>&1; then
     echo "✅ Health check passed!"
 else
-    echo "⚠️  Health check failed, but deployment completed. Check logs:"
-    echo "   docker-compose -f $COMPOSE_FILE -p $PROJECT_NAME logs app"
+    echo "⚠️  Health check failed, check logs:"
+    echo "   docker logs univ-lectures-app"
 fi
 
-# Show running containers
 echo ""
 echo "📊 Running containers:"
-docker-compose -f "$COMPOSE_FILE" -p "$PROJECT_NAME" ps
+docker ps --filter "name=univ-lectures"
 
 echo ""
 echo "✅ Deployment complete!"
-echo "🌐 App should be available at: http://YOUR_SERVER_IP"
-echo ""
-echo "📝 Useful commands:"
-echo "   View logs:    docker-compose -f $COMPOSE_FILE -p $PROJECT_NAME logs -f app"
-echo "   Stop all:     docker-compose -f $COMPOSE_FILE -p $PROJECT_NAME down"
-echo "   Restart:      docker-compose -f $COMPOSE_FILE -p $PROJECT_NAME restart"
-
-
+echo "🌐 App should be available at: http://YOUR_SERVER_IP:3002"
